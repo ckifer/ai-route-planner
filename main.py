@@ -1,7 +1,9 @@
+""" main """
 import process_image
 
-occupied_grids, planned_path = process_image.main("Test_Images/test_image4.jpg")
-print ("Occupied Grids : ")
-print (occupied_grids)
-print ("Planned Path :")
-print (planned_path)
+OCCUPIED_GRIDS, PLANNED_PATH = process_image.main(
+    "Test_Images/test_image4.jpg")
+print("Occupied Grids : ")
+print(OCCUPIED_GRIDS)
+print("Planned Path :")
+print(PLANNED_PATH)
