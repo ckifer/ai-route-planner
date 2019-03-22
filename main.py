@@ -6,4 +6,8 @@ OCCUPIED_GRIDS, PLANNED_PATH = process_image.main(
 print("Occupied Grids : ")
 print(OCCUPIED_GRIDS)
 print("Planned Path :")
-print(PLANNED_PATH)
+for obj in PLANNED_PATH:
+    print('path from:', end=' ')
+    print(obj, end=' ')
+    print('path:', end=' ')
+    print(PLANNED_PATH[obj])

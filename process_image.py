@@ -9,7 +9,7 @@ import numpy as np
 from skimage.measure import compare_ssim as ssim
 import traversal
 import astarsearch
-
+import random
 
 def main(image_filename):
     """Do some image processing, iterate through images, determine best path through obstacles"""
@@ -31,7 +31,7 @@ def main(image_filename):
     maze = [[0 for i in range(10)] for i in range(10)]
 
     # image traversal; detect non empty squares
-    for(x, y, window) in traversal.sliding_window(image, stepSize=60, windowSize=(win_w, win_h)):
+    for(x, y, window) in traversal.sliding_window(image, step_size=60, window_size=(win_w, win_h)):
         # ignore window if it doesn't meet our size requirements
         if(window.shape[0]) != win_h or window.shape[1] != win_w:
             continue
@@ -57,7 +57,7 @@ def main(image_filename):
 
         cv2.imshow("window", clone)
         cv2.waitKey(1)
-        time.sleep(0.05)
+        time.sleep(0.01)
 
         # Iterate
         index[1] = index[1] + 1
@@ -100,9 +100,25 @@ def main(image_filename):
     for obj in list_colored_grids:
         if not obj in planned_path:  # If no matched object is found;
             planned_path[obj] = list(["NO MATCH", [], 0])
+    
+    image = cv2.imread(image_filename)
+    clone = image.copy()
+
+    for obj in planned_path:
+      color = list(np.random.choice(range(256), size=3))
+      if(planned_path[obj][0] == 'NO MATCH'):
+        continue
+      end_str = planned_path[obj][0].strip('(').strip(')').strip()
+      end = tuple((int(end_str.split(',')[0]), int(end_str.split(',')[1])))
+
+      traversal.path_line(clone, start=obj, end=end, path=planned_path[obj][1], color=(int(color[0]), int(color[1]), int(color[2])))
+      cv2.imshow("window", clone)
+      cv2.waitKey()
+
+    cv2.imshow("window", clone)
+    cv2.waitKey()
 
     return occupied_grids, planned_path
-
 
 if __name__ == '__main__':
 
