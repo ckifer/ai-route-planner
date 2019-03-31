@@ -104,14 +104,24 @@ def main(image_filename):
     image = cv2.imread(image_filename)
     clone = image.copy()
 
+    drawn = list()
+
     for obj in planned_path:
       color = list(np.random.choice(range(256), size=3))
       if(planned_path[obj][0] == 'NO MATCH'):
+        cv2.putText(clone,"NO MATCH", ((((obj[0] - 1) * 60)), (((obj[1] - 1) * 60) + 30)), cv2.FONT_HERSHEY_SIMPLEX, .35, 0)
+        cv2.imshow("window", clone)
+        cv2.waitKey()
         continue
       end_str = planned_path[obj][0].strip('(').strip(')').strip()
       end = tuple((int(end_str.split(',')[0]), int(end_str.split(',')[1])))
 
+      # do this so we don't draw duplicate paths the opposite direction
+      if(drawn.__contains__(end)):
+        continue
+
       traversal.path_line(clone, start=obj, end=end, path=planned_path[obj][1], color=(int(color[0]), int(color[1]), int(color[2])))
+      drawn.append(obj)
       cv2.imshow("window", clone)
       cv2.waitKey()
 
