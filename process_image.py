@@ -57,7 +57,7 @@ def main(image_filename):
 
         cv2.imshow("window", clone)
         cv2.waitKey(1)
-        time.sleep(0.01)
+        time.sleep(0.05)
 
         # Iterate
         index[1] = index[1] + 1
